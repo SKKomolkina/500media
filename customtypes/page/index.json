@@ -1,0 +1,28 @@
+{
+  "format": "custom",
+  "id": "page",
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "basic": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  },
+  "label": "page",
+  "repeatable": true,
+  "status": true
+}

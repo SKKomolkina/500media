@@ -1,0 +1,42 @@
+{
+  "id": "basic",
+  "name": "basic",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "",
+      "id": "default",
+      "imageUrl": "",
+      "name": "Default",
+      "primary": {
+        "size": {
+          "type": "Select",
+          "config": {
+            "label": "Size",
+            "placeholder": "Select size",
+            "options": ["S", "M", "L"],
+            "default_value": "M"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": "Card title..."
+          }
+        }
+      },
+      "items": {},
+      "version": ""
+    }
+  ]
+}
