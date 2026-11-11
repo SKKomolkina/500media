@@ -1,5 +1,5 @@
 import * as prismic from "@prismicio/client";
-import { createClient } from "./prismic";
+import { createClient } from "@/prismicio";
 import type { FeedLike, Tier, Weight } from "./feed/types";
 
 export const CATEGORIES = [
@@ -20,8 +20,12 @@ export interface Article extends FeedLike {
 
 export async function getArticles(category?: string): Promise<Article[]> {
   const client = createClient();
-  const docs = await client.getAllByType("article", {
-    filters: category ? [prismic.filter.at("my.article.category", category)] : [],
+  // getAll + фильтр по типу: работает, пока prismicio-types.d.ts не знает тип article
+  const docs = await client.dangerouslyGetAll({
+    filters: [
+      prismic.filter.at("document.type", "article"),
+      ...(category ? [prismic.filter.at("my.article.category", category)] : []),
+    ],
     // Редакционный порядок: закреплённые → ручная позиция → свежесть. Без random.
     orderings: [
       { field: "my.article.pinned", direction: "desc" },
@@ -30,16 +34,19 @@ export async function getArticles(category?: string): Promise<Article[]> {
     ],
   });
 
-  return docs.map((d) => ({
-    id: d.id,
-    uid: d.uid ?? d.id,
-    title: (d.data.title as string) ?? "",
-    tier: ((d.data.tier as Tier) ?? "basic") as Tier,
-    weight: ((d.data.weight as Weight) ?? "medium") as Weight,
-    image: d.data.image as prismic.ImageField,
-    isVideo: Boolean(d.data.is_video),
-    likes: Number(d.data.likes ?? 0),
-    reposts: Number(d.data.reposts ?? 0),
-    category: (d.data.category as string) ?? null,
-  }));
+  return docs.map((d) => {
+    const data = d.data as Record<string, unknown>;
+    return {
+      id: d.id,
+      uid: d.uid ?? d.id,
+      title: (data.title as string) ?? "",
+      tier: ((data.tier as Tier) ?? "basic") as Tier,
+      weight: ((data.weight as Weight) ?? "medium") as Weight,
+      image: data.image as prismic.ImageField,
+      isVideo: Boolean(data.is_video),
+      likes: Number(data.likes ?? 0),
+      reposts: Number(data.reposts ?? 0),
+      category: (data.category as string) ?? null,
+    };
+  });
 }
