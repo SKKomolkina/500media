@@ -1,6 +1,6 @@
 import * as prismic from "@prismicio/client";
 import { createClient } from "@/prismicio";
-import type { FeedLike, Tier, Weight } from "./feed/types";
+import type { FeedLike } from "./feed/types";
 
 export const CATEGORIES = [
   { id: "hardware", label: "Железо" },
@@ -20,12 +20,8 @@ export interface Article extends FeedLike {
 
 export async function getArticles(category?: string): Promise<Article[]> {
   const client = createClient();
-  // getAll + фильтр по типу: работает, пока prismicio-types.d.ts не знает тип article
-  const docs = await client.dangerouslyGetAll({
-    filters: [
-      prismic.filter.at("document.type", "article"),
-      ...(category ? [prismic.filter.at("my.article.category", category)] : []),
-    ],
+  const docs = await client.getAllByType("article", {
+    filters: category ? [prismic.filter.at("my.article.category", category)] : [],
     // Редакционный порядок: закреплённые → ручная позиция → свежесть. Без random.
     orderings: [
       { field: "my.article.pinned", direction: "desc" },
@@ -34,19 +30,16 @@ export async function getArticles(category?: string): Promise<Article[]> {
     ],
   });
 
-  return docs.map((d) => {
-    const data = d.data as Record<string, unknown>;
-    return {
-      id: d.id,
-      uid: d.uid ?? d.id,
-      title: (data.title as string) ?? "",
-      tier: ((data.tier as Tier) ?? "basic") as Tier,
-      weight: ((data.weight as Weight) ?? "medium") as Weight,
-      image: data.image as prismic.ImageField,
-      isVideo: Boolean(data.is_video),
-      likes: Number(data.likes ?? 0),
-      reposts: Number(data.reposts ?? 0),
-      category: (data.category as string) ?? null,
-    };
-  });
+  return docs.map((d) => ({
+    id: d.id,
+    uid: d.uid,
+    title: d.data.title ?? "",
+    tier: d.data.tier ?? "basic",
+    weight: d.data.weight ?? "medium",
+    image: d.data.image,
+    isVideo: d.data.is_video,
+    likes: d.data.likes ?? 0,
+    reposts: d.data.reposts ?? 0,
+    category: d.data.category ?? null,
+  }));
 }

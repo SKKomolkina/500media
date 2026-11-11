@@ -46,7 +46,153 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-interface PageDocumentData {}
+/**
+ * Content for Article documents
+ */
+interface ArticleDocumentData {
+	/**
+	 * Заголовок (до 2 строк) field in *Article*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * Уровень field in *Article*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: basic
+	 * - **API ID Path**: article.tier
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	tier: prismic.SelectField<"basic" | "accent" | "priority", "filled">;
+	
+	/**
+	 * Важность Basic field in *Article*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: medium
+	 * - **API ID Path**: article.weight
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	weight: prismic.SelectField<"high" | "medium" | "low", "filled">;
+	
+	/**
+	 * Закрепить field in *Article*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: article.pinned
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	pinned: prismic.BooleanField;
+	
+	/**
+	 * Порядок (меньше — выше) field in *Article*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.position
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	position: prismic.NumberField;
+	
+	/**
+	 * Категория field in *Article*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.category
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	category: prismic.SelectField<"hardware" | "games" | "ai">;
+	
+	/**
+	 * Изображение field in *Article*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+	
+	/**
+	 * Видео (иконка Play) field in *Article*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: article.is_video
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	is_video: prismic.BooleanField;
+	
+	/**
+	 * Лайки field in *Article*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.likes
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	likes: prismic.NumberField;
+	
+	/**
+	 * Репосты field in *Article*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.reposts
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	reposts: prismic.NumberField;
+}
+
+/**
+ * Article document from Prismic
+ *
+ * - **API ID**: `article`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArticleDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ArticleDocumentData>, "article", Lang>;
+
+type PageDocumentDataSlicesSlice = BasicSlice
+
+/**
+ * Content for page documents
+ */
+interface PageDocumentData {
+	/**
+	 * Slice Zone field in *page*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: page.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<PageDocumentDataSlicesSlice>;
+}
 
 /**
  * page document from Prismic
@@ -59,7 +205,43 @@ interface PageDocumentData {}
  */
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = PageDocument;
+export type AllDocumentTypes = ArticleDocument | PageDocument;
+
+/**
+ * Primary content in *basic → Default → Primary*
+ */
+export interface BasicSliceDefaultPrimary {
+	/**
+	 * Size field in *basic → Default → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Select size
+	 * - **Default Value**: M
+	 * - **API ID Path**: basic.default.primary.size
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	size: prismic.SelectField<"S" | "M" | "L", "filled">;
+	
+	/**
+	 * Image field in *basic → Default → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: basic.default.primary.image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+	
+	/**
+	 * Title field in *basic → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Card title...
+	 * - **API ID Path**: basic.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+}
 
 /**
  * Default variation for basic Slice
@@ -68,7 +250,7 @@ export type AllDocumentTypes = PageDocument;
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slices
  */
-export type BasicSliceDefault = prismic.SharedSliceVariation<"default", Record<string, never>, never>;
+export type BasicSliceDefault = prismic.SharedSliceVariation<"default", Simplify<BasicSliceDefaultPrimary>, never>;
 
 /**
  * Slice variation for *basic*
@@ -99,10 +281,14 @@ declare module "@prismicio/client" {
 	
 	namespace Content {
 		export type {
+			ArticleDocument,
+			ArticleDocumentData,
 			PageDocument,
 			PageDocumentData,
+			PageDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			BasicSlice,
+			BasicSliceDefaultPrimary,
 			BasicSliceVariation,
 			BasicSliceDefault
 		}
