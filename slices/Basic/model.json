@@ -8,34 +8,38 @@
       "docURL": "",
       "id": "default",
       "imageUrl": "",
+      "items": {},
       "name": "Default",
       "primary": {
         "size": {
-          "type": "Select",
           "config": {
+            "default_value": "M",
             "label": "Size",
-            "placeholder": "Select size",
-            "options": ["S", "M", "L"],
-            "default_value": "M"
-          }
+            "options": [
+              "S",
+              "M",
+              "L"
+            ],
+            "placeholder": "Select size"
+          },
+          "type": "Select"
         },
         "image": {
-          "type": "Image",
           "config": {
-            "label": "Image",
             "constraint": {},
+            "label": "Image",
             "thumbnails": []
-          }
+          },
+          "type": "Image"
         },
         "title": {
-          "type": "Text",
           "config": {
             "label": "Title",
             "placeholder": "Card title..."
-          }
+          },
+          "type": "Text"
         }
       },
-      "items": {},
       "version": ""
     }
   ]
