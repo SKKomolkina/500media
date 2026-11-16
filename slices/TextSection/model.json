@@ -1,0 +1,35 @@
+{
+  "id": "text_section",
+  "type": "SharedSlice",
+  "name": "TextSection",
+  "description": "Раздел статьи: подзаголовок и текст",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Подзаголовок (20 px)",
+            "placeholder": "Откуда берётся шум"
+          }
+        },
+        "text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Текст",
+            "placeholder": "Текст раздела…",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

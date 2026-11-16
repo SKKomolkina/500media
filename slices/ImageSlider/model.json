@@ -1,0 +1,27 @@
+{
+  "id": "image_slider",
+  "type": "SharedSlice",
+  "name": "ImageSlider",
+  "description": "Слайдер изображений",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {},
+      "items": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Изображение",
+            "constraint": {},
+            "thumbnails": []
+          }
+        }
+      }
+    }
+  ]
+}
