@@ -1,0 +1,60 @@
+/* Лента видео. Макет: плеер 468×878 r12; открыто — сдвиг влево на 122 px и панель 380 px справа (desktop),
+   шторка снизу 468 px (mobile). */
+.video-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--page-bg); }
+.video-bg img { filter: blur(48px) saturate(1.1); transform: scale(1.25); opacity: .55; }
+.video-bg::after { content: ""; position: absolute; inset: 0; background: rgb(242 242 242 / .6); }
+
+.video-page { position: relative; padding: 0 16px 90px; }
+.vstage { position: relative; display: flex; justify-content: center; }
+.vwrap { position: relative; display: flex; justify-content: center; width: 100%; }
+
+.video { position: relative; width: min(100%, 468px); height: calc(100dvh - 66px - 74px - 16px); max-height: 878px; border-radius: 12px; overflow: hidden; background: #dadada; color: var(--white); touch-action: pan-y; transition: transform .35s ease; }
+.video-media { position: absolute; inset: 0; cursor: pointer; }
+.video-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.video-ph { position: absolute; inset: 0; background: var(--img-ph); }
+.video-paused { position: absolute; inset: 0; display: grid; place-items: center; font-size: 56px; color: rgb(255 255 255 / .85); pointer-events: none; }
+.video-shade { position: absolute; inset: auto 0 0 0; height: 200px; background: linear-gradient(transparent, rgb(0 0 0 / .72)); pointer-events: none; }
+
+.video-ui { position: absolute; inset: 20px; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+.video-ui > * { pointer-events: auto; }
+.vpills { align-self: flex-end; display: flex; gap: 8px; }
+.vpill { display: inline-flex; align-items: center; gap: 2px; height: 27px; padding-inline: 8px 10px; border-radius: 30px; background: rgb(255 255 255 / .1); backdrop-filter: blur(6px); color: var(--white); font-size: 16px; line-height: 19px; font-variant-numeric: tabular-nums; }
+.vpill svg { margin-right: 6px; color: rgb(255 255 255 / .6); }
+.vpill[data-on="true"] svg { color: var(--blue); }
+.vtext { display: flex; flex-direction: column; gap: 4px; max-width: 318px; }
+.vtext h1 { font-size: 18px; line-height: 1.1; font-weight: 700; }
+.vtext p { font-size: 14px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.vhint { margin-top: 12px; align-self: flex-start; font-size: 12px; line-height: 1.1; font-weight: 500; color: var(--white); text-align: left; }
+.vhint:focus-visible, .vnav:focus-visible, .vpill:focus-visible, .vinfo a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* ---- кнопки «предыдущее / следующее» ---- */
+.vnav { position: absolute; top: 50%; z-index: 5; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 4px; background: var(--gray); color: var(--black); transform: translateY(-50%); }
+.vnav:hover, .vnav:active { background: var(--blue); color: var(--white); }
+.vnav-prev { left: 0; } .vnav-next { right: 0; }
+@media (max-width: 1279px) { .vnav { display: none; } } /* на touch листают жестом и из меню */
+
+/* ---- панель «разобраться» ---- */
+.vdim { display: none; }
+.vinfo { position: fixed; inset: auto 0 0 0; z-index: 40; height: 468px; max-height: 80dvh; padding: 24px 16px 90px; overflow-y: auto; border-radius: 12px 12px 0 0; background: var(--white); color: var(--black); transform: translateY(100%); visibility: hidden; transition: transform .35s ease, visibility 0s .35s; }
+.vstage[data-open="true"] .vinfo { transform: none; visibility: visible; transition: transform .35s ease; }
+.vstage[data-open="true"] .vdim { display: block; position: fixed; inset: 0; z-index: 35; background: rgb(0 0 0 / .5); }
+.vinfo-close { display: block; width: 40px; height: 4px; margin: -12px auto 16px; border-radius: 2px; background: var(--gray); }
+.vinfo-in { display: flex; flex-direction: column; gap: 40px; }
+.vinfo-text { font-size: 16px; line-height: 1.2; }
+.vinfo-text p + p { margin-top: 1.2em; }
+.vinfo h2 { font-size: 18px; line-height: 1.2; font-weight: 600; margin-bottom: 12px; }
+.vinfo ul { display: flex; flex-direction: column; gap: 12px; }
+.vinfo li a { font-size: 16px; line-height: 1.1; font-weight: 500; }
+.vinfo li a:hover { color: var(--blue); }
+@media (prefers-reduced-motion: reduce) { .video, .vinfo { transition: none; } }
+
+@media (min-width: 1280px) {
+  .video-page { padding: 0 0 48px; max-width: 1200px; margin-inline: auto; }
+  .video { height: min(878px, calc(100dvh - 100px)); width: auto; aspect-ratio: 468 / 878; }
+  .vstage[data-open="true"] .video { transform: translateX(-122px); }
+  .vinfo { position: absolute; left: calc(50% + 112px); bottom: 0; inset-inline: auto; width: 380px; height: auto; max-height: none; padding: 0; overflow: visible; border-radius: 0; background: transparent; transform: translateX(-16px); opacity: 0; transition: transform .35s ease, opacity .35s ease, visibility 0s .35s; }
+  .vstage[data-open="true"] .vinfo { transform: none; opacity: 1; }
+  .vinfo-close { display: none; }
+  .vinfo-in { gap: 40px; }
+  .vstage[data-open="true"] .vdim { display: none; }
+}

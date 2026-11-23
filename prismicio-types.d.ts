@@ -46,6 +46,8 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
+type ArticleDocumentDataSlicesSlice = TextSectionSlice | ImageSliderSlice
+
 /**
  * Content for Article documents
  */
@@ -60,6 +62,28 @@ interface ArticleDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
+	
+	/**
+	 * Авторство field in *Article*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.author
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	author: prismic.KeyTextField;
+	
+	/**
+	 * Вводный текст field in *Article*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.lead
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	lead: prismic.RichTextField;
 	
 	/**
 	 * Уровень field in *Article*
@@ -163,6 +187,17 @@ interface ArticleDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/number
 	 */
 	reposts: prismic.NumberField;
+	
+	/**
+	 * Содержимое статьи field in *Article*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<ArticleDocumentDataSlicesSlice>;
 }
 
 /**
@@ -266,6 +301,92 @@ type BasicSliceVariation = BasicSliceDefault
  */
 export type BasicSlice = prismic.SharedSlice<"basic", BasicSliceVariation>;
 
+/**
+ * Primary content in *ImageSlider → Items*
+ */
+export interface ImageSliderSliceDefaultItem {
+	/**
+	 * Изображение field in *ImageSlider → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_slider.items[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Default variation for ImageSlider Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageSliderSliceDefault = prismic.SharedSliceVariation<"default", Record<string, never>, Simplify<ImageSliderSliceDefaultItem>>;
+
+/**
+ * Slice variation for *ImageSlider*
+ */
+type ImageSliderSliceVariation = ImageSliderSliceDefault
+
+/**
+ * ImageSlider Shared Slice
+ *
+ * - **API ID**: `image_slider`
+ * - **Description**: Слайдер изображений
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageSliderSlice = prismic.SharedSlice<"image_slider", ImageSliderSliceVariation>;
+
+/**
+ * Primary content in *TextSection → Default → Primary*
+ */
+export interface TextSectionSliceDefaultPrimary {
+	/**
+	 * Подзаголовок (20 px) field in *TextSection → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Откуда берётся шум
+	 * - **API ID Path**: text_section.default.primary.heading
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * Текст field in *TextSection → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Текст раздела…
+	 * - **API ID Path**: text_section.default.primary.text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * Default variation for TextSection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TextSectionSliceDefault = prismic.SharedSliceVariation<"default", Simplify<TextSectionSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *TextSection*
+ */
+type TextSectionSliceVariation = TextSectionSliceDefault
+
+/**
+ * TextSection Shared Slice
+ *
+ * - **API ID**: `text_section`
+ * - **Description**: Раздел статьи: подзаголовок и текст
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TextSectionSlice = prismic.SharedSlice<"text_section", TextSectionSliceVariation>;
+
 declare module "@prismicio/client" {
 	interface CreateClient {
 		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -283,6 +404,7 @@ declare module "@prismicio/client" {
 		export type {
 			ArticleDocument,
 			ArticleDocumentData,
+			ArticleDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
@@ -290,7 +412,15 @@ declare module "@prismicio/client" {
 			BasicSlice,
 			BasicSliceDefaultPrimary,
 			BasicSliceVariation,
-			BasicSliceDefault
+			BasicSliceDefault,
+			ImageSliderSlice,
+			ImageSliderSliceDefaultItem,
+			ImageSliderSliceVariation,
+			ImageSliderSliceDefault,
+			TextSectionSlice,
+			TextSectionSliceDefaultPrimary,
+			TextSectionSliceVariation,
+			TextSectionSliceDefault
 		}
 	}
 }

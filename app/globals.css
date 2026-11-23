@@ -6,7 +6,8 @@
     --white: #fff;
     --gray: #ccc;
     --blue: #406cca;
-    --card-bg: #f4f4f4;
+    --card-bg: #fff;
+  --page-bg: #f2f2f2;
     --img-ph: #dadada;
     --font-sans: var(--font-inter), system-ui, sans-serif;
     --font-tag: var(--font-mono), ui-monospace, monospace;
@@ -33,87 +34,63 @@
 }
 
 body {
-    background: var(--white);
+    background: var(--page-bg);
     color: var(--black);
     font-family: var(--font-sans);
 }
 
-/* ---------- шапка с тегами (Tag space) ---------- */
-.tag-space {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: linear-gradient(#f1f1f1, rgb(242 242 242 / 0));
-}
-
-.tag-space-in {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    height: 66px;
-    padding-inline: 16px;
-    max-width: 1200px;
-    margin-inline: auto;
-}
-
-.wordmark {
-    display: none;
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -.04em;
-}
-
-.tags {
-    display: flex;
-    gap: 14px;
-    overflow-x: auto;
-    font: 400 14px/15px var(--font-tag);
-    white-space: nowrap;
-    scrollbar-width: none;
-}
-
-.tags a {
-    padding-bottom: 2px;
-    border-bottom: 2px solid transparent;
-}
-
-.tags a[aria-current="page"] {
-    border-bottom-color: var(--black);
-}
-
-.tags a:focus-visible, .card:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: 2px;
-}
-
-@media (min-width: 768px) {
-    .tag-space-in {
-        padding-inline: 22px;
-    }
-}
-
+/* ---------- Tag space: 66 px mobile/tablet, 80 px desktop ---------- */
+.tag-space { position: sticky; top: 0; z-index: 20; background: linear-gradient(var(--page-bg), rgb(242 242 242 / 0)); }
+.tag-space-in { display: flex; align-items: flex-start; gap: 24px; height: 66px; padding: 32px 16px 0; max-width: 1200px; margin-inline: auto; }
+.wm { display: none; color: var(--black); }
+.tags { display: flex; gap: 14px; overflow-x: auto; font: 400 14px/15px var(--font-tag); white-space: nowrap; scrollbar-width: none; }
+.tags a { color: var(--black); padding-bottom: 2px; border-bottom: 1px solid transparent; }
+.tags a[aria-current="page"] { color: var(--blue); border-bottom-color: var(--blue); }
+.tags a:focus-visible, .card:focus-visible, .bottom-menu a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+@media (min-width: 768px) { .tag-space-in { padding-inline: 22px; } }
 @media (min-width: 1280px) {
-    .tag-space-in {
-        height: 80px;
-        padding-inline: 0;
-    }
-
-    .wordmark {
-        display: block;
-        margin-right: 24px;
-    }
-
-    .tags {
-        font-size: 20px;
-        line-height: 22px;
-        gap: 24px;
-    }
+  .tag-space-in { height: 80px; padding: 0; align-items: center; gap: 24px; }
+  .tags { font-size: 20px; line-height: 22px; gap: 24px; }
+  .wm-inline { display: block; } /* 1280–1559: логотип в потоке слева от тегов */
 }
+@media (min-width: 1560px) {
+  .wm-inline { display: none; }
+  .wm-fixed { display: block; position: absolute; left: 32px; top: 35px; }
+}
+
+/* ---------- нижнее меню: mobile/tablet (74 px, «таблетка» 189×51) ---------- */
+.bottom-menu { position: fixed; inset: auto 0 0 0; z-index: 30; height: 74px; display: flex; justify-content: center; align-items: flex-start; pointer-events: none; background: linear-gradient(rgb(242 242 242 / 0), var(--page-bg) 70%); }
+.bottom-menu ul { pointer-events: auto; display: flex; padding: 5px; background: var(--white); border-radius: 12px; height: 51px; box-shadow: 0 0 0 1px rgb(18 18 18 / .06); }
+.bottom-menu a { display: grid; place-items: center; width: 60px; height: 42px; border-radius: 12px; color: var(--black); }
+.bottom-menu a[aria-current="page"] { background: var(--blue); color: var(--white); }
+@media (min-width: 1280px) { .bottom-menu { display: none; } }
+
+/* ---------- левая колонка desktop (288 px, слева 32 px); при <1560 места нет ---------- */
+.left-col { display: none; }
+@media (min-width: 1560px) {
+  .left-col { display: flex; flex-direction: column; justify-content: space-between; position: fixed; left: 32px; top: 100px; bottom: 32px; width: 288px; z-index: 10; }
+}
+.left-desc { display: flex; flex-direction: column; gap: 20px; font: 300 16px/1.15 var(--font-tag); }
+.left-desc p { font-weight: 300; }
+.left-desc a { font-weight: 500; }
+.left-info { display: flex; flex-direction: column; gap: 16px; }
+.left-social p { font: 700 16px/1 var(--font-tag); margin-bottom: 12px; }
+.left-social ul { display: flex; gap: 4px; }
+.left-social a { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--gray); font: 500 10px/1 var(--font-tag); }
+.left-info hr { border: 0; height: 1px; background: var(--gray); }
+.left-docs { display: flex; flex-direction: column; gap: 4px; font-weight: 300; font-size: 12px; line-height: 1.1; }
+.left-info small { font-weight: 300; font-size: 12px; line-height: 1; }
+
+/* ---------- О нас ---------- */
+.about { display: flex; flex-direction: column; gap: 32px; padding: 24px 16px 120px; max-width: 358px; margin-inline: auto; font-size: 16px; line-height: 1.2; }
+.about p { white-space: pre-line; }
+.about-wm { margin-bottom: 28px; }
+@media (min-width: 768px) { .about { padding-top: 24px; } }
+@media (min-width: 1280px) { .about { max-width: 712px; padding-top: 32px; padding-bottom: 48px; } .about-wm { display: none; } }
 
 /* ---------- раскладки: показываем ровно одну ---------- */
-.content {
-    padding: 8px 0 48px;
-}
+.content { padding: 0 0 100px; } /* место под нижнее меню */
+@media (min-width: 1280px) { .content { padding: 24px 0 48px; } }
 
 .feed {
     display: none;

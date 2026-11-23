@@ -106,6 +106,39 @@
           "label": "Репосты"
         }
       },
+      "video": {
+        "type": "Link",
+        "config": {
+          "label": "Видеофайл (для ленты видео)",
+          "select": "media",
+          "allowText": false
+        }
+      },
+      "summary": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Описание для видео (раскрывается по свайпу)",
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "related": {
+        "type": "Group",
+        "config": {
+          "label": "Связанные материалы",
+          "fields": {
+            "article": {
+              "type": "Link",
+              "config": {
+                "label": "Материал",
+                "select": "document",
+                "customtypes": [
+                  "article"
+                ]
+              }
+            }
+          }
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Содержимое статьи",
