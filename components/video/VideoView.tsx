@@ -31,6 +31,7 @@ export async function VideoView({ uid }: { uid?: string }) {
       <LeftColumn />
       <main className="video-page">
         <VideoStage
+          uid={v.uid}
           title={v.title}
           caption={v.caption}
           src={v.videoUrl}

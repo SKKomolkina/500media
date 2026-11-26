@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useReaction } from "@/lib/reactions/client";
 
 const Chevron = ({ dir }: { dir: "l" | "r" }) => (
   <svg viewBox="0 0 8 15" width="8" height="15" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" style={dir === "r" ? { transform: "scaleX(-1)" } : undefined}>
@@ -12,6 +13,7 @@ const Heart = () => <svg viewBox="0 0 8 8" width="8" height="8" aria-hidden fill
 const Repost = () => <svg viewBox="0 0 8 8" width="8" height="8" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M1 4V3a1 1 0 0 1 1-1h4M7 4v1a1 1 0 0 1-1 1H2" /></svg>;
 
 interface Props {
+  uid: string;
   title: string;
   caption: string;
   poster: React.ReactNode;
@@ -29,10 +31,10 @@ interface Props {
  * Вертикальный плеер 468×878. Закрытое состояние — только видео по центру.
  * Открытое — видео сдвигается влево, справа панель (desktop) / шторка снизу (mobile).
  */
-export function VideoStage({ title, caption, poster, src, likes, reposts, prevHref, nextHref, info, canOpen }: Props) {
+export function VideoStage({ uid, title, caption, poster, src, likes, reposts, prevHref, nextHref, info, canOpen }: Props) {
   const [open, setOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [reposted, setReposted] = useState(false);
+  const like = useReaction(uid, "likes", likes);
+  const repost = useReaction(uid, "reposts", reposts);
   const [paused, setPaused] = useState(false);
   const ref = useRef<HTMLVideoElement>(null);
 
@@ -83,11 +85,11 @@ export function VideoStage({ title, caption, poster, src, likes, reposts, prevHr
 
           <div className="video-ui">
             <div className="vpills">
-              <button type="button" className="vpill" data-on={liked} aria-pressed={liked} aria-label="Нравится" onClick={() => setLiked((v) => !v)}>
-                <Heart />{likes + (liked ? 1 : 0)}
+              <button type="button" className="vpill" data-on={like.on} aria-pressed={like.on} aria-label="Нравится" onClick={like.toggle}>
+                <Heart />{like.count}
               </button>
-              <button type="button" className="vpill" data-on={reposted} aria-pressed={reposted} aria-label="Поделиться" onClick={() => setReposted((v) => !v)}>
-                <Repost />{reposts + (reposted ? 1 : 0)}
+              <button type="button" className="vpill" data-on={repost.on} aria-pressed={repost.on} aria-label="Поделиться" onClick={repost.toggle}>
+                <Repost />{repost.count}
               </button>
             </div>
             <div className="vtext">

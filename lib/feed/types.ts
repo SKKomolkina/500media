@@ -18,4 +18,6 @@ export type Column<T> = [Placed<T>, Placed<T>];
 
 export type Block<T> =
   | { kind: "module"; columns: Column<T>[] }
+  /** Хвост ленты: карточки без пары. Показываются по одной в колонке, без выравнивания. */
+  | { kind: "tail"; cards: Placed<T>[] }
   | { kind: "priority"; item: T };

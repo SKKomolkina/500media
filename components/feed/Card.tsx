@@ -2,8 +2,7 @@ import Link from "next/link";
 import { PrismicNextImage } from "@prismicio/next";
 import type { Article } from "@/lib/articles";
 import type { Size } from "@/lib/feed/types";
-
-const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(".0", "")}k` : String(n));
+import { LiveCount } from "@/components/reactions/LiveCount";
 
 const Heart = () => (
   <svg viewBox="0 0 8 8" width="8" height="8" aria-hidden fill="currentColor"><path d="M4 7.2 1 4.3A1.9 1.9 0 0 1 4 2a1.9 1.9 0 0 1 3 2.3z" /></svg>
@@ -33,8 +32,8 @@ function Media({ a }: { a: Article }) {
 function Reactions({ a }: { a: Article }) {
   return (
     <div className="card-reactions">
-      <span><Heart />{fmt(a.likes)}</span>
-      <span><Repost />{fmt(a.reposts)}</span>
+      <span><Heart /><LiveCount uid={a.uid} kind="likes" base={a.likes} /></span>
+      <span><Repost /><LiveCount uid={a.uid} kind="reposts" base={a.reposts} /></span>
     </div>
   );
 }

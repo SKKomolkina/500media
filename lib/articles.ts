@@ -106,7 +106,7 @@ export async function getVideos(): Promise<VideoItem[]> {
       caption: prismic.asText(d.data.lead) ?? "",
       image: d.data.image,
       videoUrl: v?.link_type === "Media" && v.url ? v.url : null,
-      summary: d.data.summary,
+      summary: d.data.summary ?? [],
       likes: d.data.likes ?? 0,
       reposts: d.data.reposts ?? 0,
       related: (d.data.related ?? []).flatMap((r) => {

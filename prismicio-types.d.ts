@@ -46,6 +46,21 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
+/**
+ * Item in *Article → Связанные материалы*
+ */
+export interface ArticleDocumentDataRelatedItem {
+	/**
+	 * Материал field in *Article → Связанные материалы*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.related[].article
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	article: prismic.ContentRelationshipField<"article">;
+}
+
 type ArticleDocumentDataSlicesSlice = TextSectionSlice | ImageSliderSlice
 
 /**
@@ -187,6 +202,39 @@ interface ArticleDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/number
 	 */
 	reposts: prismic.NumberField;
+	
+	/**
+	 * Видеофайл (для ленты видео) field in *Article*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.video
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	video: prismic.LinkToMediaField<prismic.FieldState, never>;
+	
+	/**
+	 * Описание для видео (раскрывается по свайпу) field in *Article*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.summary
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	summary: prismic.RichTextField;
+	
+	/**
+	 * Связанные материалы field in *Article*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: article.related[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	related: prismic.GroupField<Simplify<ArticleDocumentDataRelatedItem>>;
 	
 	/**
 	 * Содержимое статьи field in *Article*
@@ -404,6 +452,7 @@ declare module "@prismicio/client" {
 		export type {
 			ArticleDocument,
 			ArticleDocumentData,
+			ArticleDocumentDataRelatedItem,
 			ArticleDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,

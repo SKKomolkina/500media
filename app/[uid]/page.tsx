@@ -41,7 +41,7 @@ async function ArticleContent({ params }: { params: Params }) {
 
   return (
     <>
-      <HeadMenu likes={d.likes ?? 0} reposts={d.reposts ?? 0} />
+      <HeadMenu uid={uid} likes={d.likes ?? 0} reposts={d.reposts ?? 0} />
       <LeftColumn />
       <main className="art-page">
         <article className="art">

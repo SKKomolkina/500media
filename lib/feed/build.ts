@@ -138,7 +138,20 @@ export function buildFeed<T extends FeedLike>(items: T[], opts: BuildOptions): B
     }
   }
 
-  // Данных больше нет — оставшиеся Priority встают после последнего завершённого модуля.
+  // Данных больше нет: карточки без пары (например, единственная статья) не теряем — показываем хвостом.
+  if (final) {
+    advance();
+    const rest: Placed<T>[] = [];
+    for (let i = 0; i < flow.length; i++) {
+      if (used[i]) continue;
+      const it = flow[i].item;
+      const size: Size = it.tier === "accent" ? "A" : it.weight === "high" ? "L" : it.weight === "low" ? "S" : "M";
+      rest.push({ item: it, size });
+    }
+    for (let i = 0; i < rest.length; i += cols) blocks.push({ kind: "tail", cards: rest.slice(i, i + cols) });
+  }
+
+  // Оставшиеся Priority встают после последнего блока.
   if (final) {
     while (p < priorities.length) blocks.push({ kind: "priority", item: priorities[p++].item });
   }
