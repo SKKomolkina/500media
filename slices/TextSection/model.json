@@ -1,35 +1,35 @@
 {
-  "id": "text_section",
-  "type": "SharedSlice",
-  "name": "TextSection",
   "description": "Раздел статьи: подзаголовок и текст",
+  "id": "text_section",
+  "name": "TextSection",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "",
-      "version": "",
       "description": "Default",
+      "docURL": "",
+      "id": "default",
       "imageUrl": "",
+      "items": {},
+      "name": "Default",
       "primary": {
         "heading": {
-          "type": "Text",
           "config": {
             "label": "Подзаголовок (20 px)",
             "placeholder": "Откуда берётся шум"
-          }
+          },
+          "type": "Text"
         },
         "text": {
-          "type": "StructuredText",
           "config": {
-            "label": "Текст",
-            "placeholder": "Текст раздела…",
             "allowTargetBlank": true,
-            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
-          }
+            "label": "Текст",
+            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item",
+            "placeholder": "Текст раздела…"
+          },
+          "type": "StructuredText"
         }
       },
-      "items": {}
+      "version": ""
     }
   ]
 }

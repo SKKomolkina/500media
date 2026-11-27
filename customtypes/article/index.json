@@ -1,75 +1,71 @@
 {
   "format": "custom",
   "id": "article",
-  "label": "Article",
-  "repeatable": true,
-  "status": true,
   "json": {
     "Main": {
       "uid": {
-        "type": "UID",
         "config": {
           "label": "UID"
-        }
+        },
+        "type": "UID"
       },
       "title": {
-        "type": "Text",
         "config": {
           "label": "Заголовок (до 2 строк)"
-        }
+        },
+        "type": "Text"
       },
       "author": {
-        "type": "Text",
         "config": {
           "label": "Авторство"
-        }
+        },
+        "type": "Text"
       },
       "lead": {
-        "type": "StructuredText",
         "config": {
           "label": "Вводный текст",
           "multi": "paragraph,strong,em,hyperlink"
-        }
+        },
+        "type": "StructuredText"
       },
       "tier": {
-        "type": "Select",
         "config": {
+          "default_value": "basic",
           "label": "Уровень",
           "options": [
             "basic",
             "accent",
             "priority"
-          ],
-          "default_value": "basic"
-        }
+          ]
+        },
+        "type": "Select"
       },
       "weight": {
-        "type": "Select",
         "config": {
+          "default_value": "medium",
           "label": "Важность Basic",
           "options": [
             "high",
             "medium",
             "low"
-          ],
-          "default_value": "medium"
-        }
+          ]
+        },
+        "type": "Select"
       },
       "pinned": {
-        "type": "Boolean",
         "config": {
-          "label": "Закрепить",
-          "default_value": false
-        }
+          "default_value": false,
+          "label": "Закрепить"
+        },
+        "type": "Boolean"
       },
       "position": {
-        "type": "Number",
         "config": {
           "label": "Порядок (меньше — выше)"
-        }
+        },
+        "type": "Number"
       },
       "category": {
-        "type": "Select",
         "config": {
           "label": "Категория",
           "options": [
@@ -77,71 +73,70 @@
             "games",
             "ai"
           ]
-        }
+        },
+        "type": "Select"
       },
       "image": {
-        "type": "Image",
         "config": {
-          "label": "Изображение",
           "constraint": {},
+          "label": "Изображение",
           "thumbnails": []
-        }
+        },
+        "type": "Image"
       },
       "is_video": {
-        "type": "Boolean",
         "config": {
-          "label": "Видео (иконка Play)",
-          "default_value": false
-        }
+          "default_value": false,
+          "label": "Видео (иконка Play)"
+        },
+        "type": "Boolean"
       },
       "likes": {
-        "type": "Number",
         "config": {
           "label": "Лайки"
-        }
+        },
+        "type": "Number"
       },
       "reposts": {
-        "type": "Number",
         "config": {
           "label": "Репосты"
-        }
+        },
+        "type": "Number"
       },
       "video": {
-        "type": "Link",
         "config": {
+          "allowText": false,
           "label": "Видеофайл (для ленты видео)",
-          "select": "media",
-          "allowText": false
-        }
+          "select": "media"
+        },
+        "type": "Link"
       },
       "summary": {
-        "type": "StructuredText",
         "config": {
           "label": "Описание для видео (раскрывается по свайпу)",
           "multi": "paragraph,strong,em,hyperlink"
-        }
+        },
+        "type": "StructuredText"
       },
       "related": {
-        "type": "Group",
         "config": {
-          "label": "Связанные материалы",
           "fields": {
             "article": {
-              "type": "Link",
               "config": {
-                "label": "Материал",
-                "select": "document",
                 "customtypes": [
                   "article"
-                ]
-              }
+                ],
+                "label": "Материал",
+                "select": "document"
+              },
+              "type": "Link"
             }
-          }
-        }
+          },
+          "label": "Связанные материалы"
+        },
+        "type": "Group"
       },
       "slices": {
-        "type": "Slices",
-        "fieldset": "Содержимое статьи",
         "config": {
           "choices": {
             "text_section": {
@@ -151,8 +146,13 @@
               "type": "SharedSlice"
             }
           }
-        }
+        },
+        "fieldset": "Содержимое статьи",
+        "type": "Slices"
       }
     }
-  }
+  },
+  "label": "Article",
+  "repeatable": true,
+  "status": true
 }

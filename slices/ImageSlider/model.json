@@ -1,27 +1,27 @@
 {
-  "id": "image_slider",
-  "type": "SharedSlice",
-  "name": "ImageSlider",
   "description": "Слайдер изображений",
+  "id": "image_slider",
+  "name": "ImageSlider",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "",
-      "version": "",
       "description": "Default",
+      "docURL": "",
+      "id": "default",
       "imageUrl": "",
-      "primary": {},
       "items": {
         "image": {
-          "type": "Image",
           "config": {
-            "label": "Изображение",
             "constraint": {},
+            "label": "Изображение",
             "thumbnails": []
-          }
+          },
+          "type": "Image"
         }
-      }
+      },
+      "name": "Default",
+      "primary": {},
+      "version": ""
     }
   ]
 }
