@@ -259,6 +259,66 @@ interface ArticleDocumentData {
  */
 export type ArticleDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ArticleDocumentData>, "article", Lang>;
 
+type BlogPostDocumentDataSlicesSlice = TextBlockSlice
+
+/**
+ * Content for Blog Post documents
+ */
+interface BlogPostDocumentData {
+	/**
+	 * Slice Zone field in *Blog Post*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: blog_post.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<BlogPostDocumentDataSlicesSlice>;/**
+	 * Meta Title field in *Blog Post*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: blog_post.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * Meta Description field in *Blog Post*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: blog_post.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+	
+	/**
+	 * Meta Image field in *Blog Post*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: blog_post.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Blog Post document from Prismic
+ *
+ * - **API ID**: `blog_post`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BlogPostDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<BlogPostDocumentData>, "blog_post", Lang>;
+
 type PageDocumentDataSlicesSlice = BasicSlice
 
 /**
@@ -288,7 +348,7 @@ interface PageDocumentData {
  */
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = ArticleDocument | PageDocument;
+export type AllDocumentTypes = ArticleDocument | BlogPostDocument | PageDocument;
 
 /**
  * Primary content in *basic → Default → Primary*
@@ -388,6 +448,44 @@ type ImageSliderSliceVariation = ImageSliderSliceDefault
 export type ImageSliderSlice = prismic.SharedSlice<"image_slider", ImageSliderSliceVariation>;
 
 /**
+ * Primary content in *Text Block → Default → Primary*
+ */
+export interface TextBlockSliceDefaultPrimary {
+	/**
+	 * Text field in *Text Block → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: text_block.default.primary.text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Text Block Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TextBlockSliceDefault = prismic.SharedSliceVariation<"default", Simplify<TextBlockSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *Text Block*
+ */
+type TextBlockSliceVariation = TextBlockSliceDefault
+
+/**
+ * Text Block Shared Slice
+ *
+ * - **API ID**: `text_block`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TextBlockSlice = prismic.SharedSlice<"text_block", TextBlockSliceVariation>;
+
+/**
  * Primary content in *TextSection → Default → Primary*
  */
 export interface TextSectionSliceDefaultPrimary {
@@ -454,6 +552,9 @@ declare module "@prismicio/client" {
 			ArticleDocumentData,
 			ArticleDocumentDataRelatedItem,
 			ArticleDocumentDataSlicesSlice,
+			BlogPostDocument,
+			BlogPostDocumentData,
+			BlogPostDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
@@ -466,6 +567,10 @@ declare module "@prismicio/client" {
 			ImageSliderSliceDefaultItem,
 			ImageSliderSliceVariation,
 			ImageSliderSliceDefault,
+			TextBlockSlice,
+			TextBlockSliceDefaultPrimary,
+			TextBlockSliceVariation,
+			TextBlockSliceDefault,
 			TextSectionSlice,
 			TextSectionSliceDefaultPrimary,
 			TextSectionSliceVariation,

@@ -2,10 +2,12 @@
 
 import Basic from "./Basic";
 import ImageSlider from "./ImageSlider";
+import TextBlock from "./TextBlock";
 import TextSection from "./TextSection";
 
 export const components = {
 	basic: Basic,
 	image_slider: ImageSlider,
+	text_block: TextBlock,
 	text_section: TextSection
 };

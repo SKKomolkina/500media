@@ -1,4 +1,9 @@
 {
   "repositoryName": "media-test",
-  "routes": []
+  "routes": [
+    {
+      "type": "blog_post",
+      "path": "/blog-post/:uid"
+    }
+  ]
 }
